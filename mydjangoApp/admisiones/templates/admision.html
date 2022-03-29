@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <form action="" method="POST" enctype="multipart/form-data">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button type='submit'>Enviar</button>
+    </form>
+    <div class="card-body">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr>
+                    {% if datos %}
+                        {% for dato in datos %}
+                    <td>{{dato.numero_identificacion}}</td>
+                    <td>{{dato.nombre}} {{dato.apellido}}</td>
+                    <td>{{dato.sexo}}</td>
+                    <td>{{dato.fecha_nacimiento}}</td>
+                    <td>{{dato.telefono}}</td>
+                    <td>{{dato.email}}</td>
+                    <td>
+                        <div>
+                            <button type="button" class="inputButton" value="0">Editar</button>
+                            <button type="button" class="inputButton" value="1">Eliminar</button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+</html>
