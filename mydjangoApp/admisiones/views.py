@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from ast import Break
+from django.shortcuts import render, HttpResponse
 from admisiones.forms import ImportarPaciente
 from admisiones.models import Paciente, TipoIdentificacion
 # Create your views here.
@@ -16,14 +17,21 @@ def admision(request):
         csv_data = data.split("\n")
         cont = 0
         dict = {cont: {}}
-        for x in csv_data:
-            fields = x.split(',')
+        for x in csv_data[1:101]:
+            if ';' in x:
+                fields = x.split(';')
+            else:
+                fields = x.split(',')
             # print(x.split(','))
-            print(fields)
-            tipoId = TipoIdentificacion.objects.filter(nombre=fields[0])
+            tipoId = list(TipoIdentificacion.objects.filter(
+                nombre=fields[0]).values_list('acronimo', flat=True))
+            try:
+                tipo = tipoId[0]
+            except:
+                tipo = ''
             try:
                 dict[cont] = {
-                    'tipo_idenfiticacion': tipoId,
+                    'tipo_idenfiticacion': tipo,
                     'numero_identificacion': fields[1],
                     'nombre': fields[2],
                     'apellido': fields[3],
@@ -40,11 +48,15 @@ def admision(request):
             except:
                 print(fields)
             cont += 1
-        print(dict)
+        # print(dict)
         miFormulario = ImportarPaciente()
-        # return render(request, 'admision.html', {'datos': dict})
+        return render(request, 'admision.html', {'datos': dict.values(), 'form': miFormulario})
     else:
         miFormulario = ImportarPaciente()
-        print('false')
 
     return render(request, 'admision.html', {'form': miFormulario})
+
+def editar(request,dato):
+    dato=dato
+    document="%s" %(dato)
+    return HttpResponse(document)

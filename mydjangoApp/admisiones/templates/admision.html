@@ -10,45 +10,48 @@
         <table id="datatablesSimple">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
+                    <th>Identificacion</th>
+                    <th>Nombre</th>
+                    <th>Sexo</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Telefono</th>
+                    <th>Correo</th>
                     <th></th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
+                    <th>Identificacion</th>
+                    <th>Nombre</th>
+                    <th>Sexo</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Telefono</th>
+                    <th>Correo</th>
                     <th></th>
                 </tr>
             </tfoot>
             <tbody>
-                <tr>
-                    {% if datos %}
-                        {% for dato in datos %}
-                    <td>{{dato.numero_identificacion}}</td>
-                    <td>{{dato.nombre}} {{dato.apellido}}</td>
-                    <td>{{dato.sexo}}</td>
-                    <td>{{dato.fecha_nacimiento}}</td>
-                    <td>{{dato.telefono}}</td>
-                    <td>{{dato.email}}</td>
-                    <td>
-                        <div>
-                            <button type="button" class="inputButton" value="0">Editar</button>
-                            <button type="button" class="inputButton" value="1">Eliminar</button>
-                        </div>
-                        {% endfor %}
-                    {% endif %}
-                    </td>
-                </tr>
+                {% if datos %}
+                    {% for dato in datos %}
+                        <tr>
+                            <td>{{ dato.tipo_idenfiticacion }} {{ dato.numero_identificacion }}</td>
+                            <td>{{ dato.nombre }} {{ dato.apellido }}</td>
+                            <td>{{ dato.sexo }}</td>
+                            <td>{{ dato.fecha_nacimiento }}</td>
+                            <td>{{ dato.telefono }}</td>
+                            <td>{{ dato.email }}</td>
+                            <td>
+                                <div>
+                                    <a class="btn btn-info pull-right" color="white"
+                                       href="{% url 'editar' dato|str %}">
+                                        Check It Out
+                                    </a>
+                                    <button type="button" class="inputButton" value="1">Eliminar</button>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
             </tbody>
         </table>
     </div>
