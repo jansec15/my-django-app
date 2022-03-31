@@ -1,5 +1,61 @@
 {% extends "base.html" %}
 {% load static %}
+{% block head %}
+<style>
+    .modalDialog {
+        position: fixed;
+        font-family: Arial, Helvetica, sans-serif;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0,0,0,0.8);
+        z-index: 99999;
+        opacity:0;
+        -webkit-transition: opacity 400ms ease-in;
+        -moz-transition: opacity 400ms ease-in;
+        transition: opacity 400ms ease-in;
+        pointer-events: none;
+    }
+    .modalDialog:target {
+        opacity:1;
+        pointer-events: auto;
+    }
+    .modalDialog > div {
+        width: 400px;
+        position: relative;
+        margin: 10% auto;
+        padding: 5px 20px 13px 20px;
+        border-radius: 10px;
+        background: #fff;
+        background: -moz-linear-gradient(#fff, #999);
+        background: -webkit-linear-gradient(#fff, #999);
+        background: -o-linear-gradient(#fff, #999);
+      -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    }
+    .close {
+        background: #606061;
+        color: #FFFFFF;
+        line-height: 25px;
+        position: absolute;
+        right: -12px;
+        text-align: center;
+        top: -10px;
+        width: 24px;
+        text-decoration: none;
+        font-weight: bold;
+        -webkit-border-radius: 12px;
+        -moz-border-radius: 12px;
+        border-radius: 12px;
+        -moz-box-shadow: 1px 1px 3px #000;
+        -webkit-box-shadow: 1px 1px 3px #000;
+        box-shadow: 1px 1px 3px #000;
+    }
+    .close:hover { background: #00d9ff; }
+</style>
+{% endblock %}
 {% block content %}
     <form action="" method="POST" enctype="multipart/form-data">
         {{ form.as_p }}
@@ -42,14 +98,54 @@
                             <td>{{ dato.email }}</td>
                             <td>
                                 <div>
-                                    <a class="btn btn-info pull-right" color="white"
-                                       href="{% url 'editar' dato|str %}">
-                                        Check It Out
-                                    </a>
+                                    <a href="#openModal" class="btn btn-info pull-right" color="white">Lanzar el modal</a>
+                                    <a class="btn btn-info pull-right"
+                                       color="white"
+                                       href="{% url 'editar' dato.numero_identificacion %}">Check It Out</a>
                                     <button type="button" class="inputButton" value="1">Eliminar</button>
                                 </div>
                             </td>
                         </tr>
+                        <div id="openModal" class="modalDialog">
+                            <div>
+                                <a href="#close" title="Close" class="close">X</a>
+                                <p></p>
+                                <p><h2> Informacion del Paciente</h2></p>
+                                <p>
+                                    <label>Identificacion:</label> {{ dato.tipo_idenfiticacion }} {{ dato.numero_identificacion }}
+                                </p>
+                                <p>
+                                    <label>Nombre:</label> {{ dato.nombre }} {{ dato.apellido }}
+                                </p>
+                                <p>
+                                    <label>Sexo:</label> {{ dato.sexo }}
+                                </p>
+                                <p>
+                                    <label>Fecha de Nacimiento:</label> {{ dato.fecha_nacimiento }}
+                                </p>
+                                <p>
+                                    <label>Telefono:</label> {{ dato.telefono }}
+                                </p>
+                                <p>
+                                    <label>Email:</label> {{ dato.email }}
+                                </p>
+                                <p>
+                                    <label>Pais de Nacimiento: </label> {{ dato.pais_nacimiento }}
+                                </p>
+                                <p>
+                                    <label>Pais de Residencia:</label> {{ dato.pais_residencia }}
+                                </p>
+                                <p>
+                                    <label>Direccion: </label> {{ dato.direccion }}
+                                </p>
+                                <p>
+                                    <label>Ocupacion:</label> {{ dato.ocupacion }}
+                                </p>
+                                <p>
+                                    <label>Tipo Sangre:</label> {{ dato.tipo_sangre }}
+                                </p>
+                            </div>
+                        </div>
                     {% endfor %}
                 {% endif %}
             </tbody>

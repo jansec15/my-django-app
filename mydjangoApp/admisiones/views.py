@@ -25,6 +25,10 @@ def admision(request):
             # print(x.split(','))
             tipoId = list(TipoIdentificacion.objects.filter(
                 nombre=fields[0]).values_list('acronimo', flat=True))
+            if fields[12].find('\r'):
+                blood=fields[12].split('\r')[0]
+            else:
+                blood=fields[12]
             try:
                 tipo = tipoId[0]
             except:
@@ -43,8 +47,10 @@ def admision(request):
                     'pais_residencia': fields[9],
                     'direccion': fields[10],
                     'ocupacion': fields[11],
-                    'tipo_sangre': fields[12]
+                    'tipo_sangre': blood
                 }
+                print(blood)
+                #Paciente.(dict[cont])
             except:
                 print(fields)
             cont += 1
